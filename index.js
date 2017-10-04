@@ -16,6 +16,11 @@ filters: {
     }
 }
 }).driver(request('Windows-1252'));
+app.get('/getVerses', function(req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Content-Type", "application/json", "charset=utf-8");
+  res.send('hi')
+})
 
 app.get('/getVerses', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
