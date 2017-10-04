@@ -1,8 +1,6 @@
-
-
-
 const express = require('express');
 const app = express();
+let port = process.env.PORT || 8080;
 let request = require('./xray-driver')
 const xRay = require('x-ray');
 const x = xRay({
@@ -64,7 +62,9 @@ app.get('/category/:id', function(req, res) {
 console.log("done");
 
 
-app.listen(4000)
+app.listen(port, function() {
+  console.log('Our app is running on port: ' + port)
+})
 
 
 
