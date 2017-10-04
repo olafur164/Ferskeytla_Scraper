@@ -64,7 +64,7 @@ app.get('/category/:id', function(req, res) {
 console.log("done");
 
 
-app.listen(80)
+app.listen(4000)
 
 
 
