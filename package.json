@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "config" : { "port" : "4000" },
+  "config": {
+    "port": "4000"
+  },
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,8 +15,10 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.4",
+    "moment": "^2.18.1",
+    "redis": "^2.8.0",
     "superagent-charset": "^1.2.0",
+    "underscore": "^1.8.3",
     "x-ray": "^2.3.2"
   }
 }
-    

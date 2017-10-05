@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const redis = require('./helpers/redis')
+const fs = require("fs")
 let port = process.env.PORT || 8080;
 let request = require('./xray-driver')
 const xRay = require('x-ray');
@@ -14,21 +16,54 @@ filters: {
     }
 }
 }).driver(request('Windows-1252'));
-app.get('/getVerses', function(req, res) {
+
+let verses;
+getVerses = ()=> {
+  console.log("Fetching");
+  x('http://visna.net/',  ".container", {
+    results: x('center .stafrof a@href', ".container #left .menuSubPadd:not(:nth-child(2))", [{
+      id: '.menuSubPadd a@href',
+      title: ".menuSubPadd a",
+      text: x('.menuSubPadd a@href', '.container #content .poemtext'),
+      author: x(".menuSubPadd a@href", ".container #content .poemauthor"),
+    }])
+  })((err, obj)=>{
+    verses = obj;
+    console.log(verses)
+    console.log("verses er tilbúið");
+  });
+}
+getVerses();
+app.get('/verses', (req, res)=> {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Content-Type", "application/json; charset=utf-8");
+  res.json(verses);
+ });
+ 
+app.get('/api/verses.json', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Content-Type", "application/json", "charset=utf-8");
-  res.send('hi')
+  const fileToOpen = "./results.json"; 
+  fs.readFile(fileToOpen,function(error,data){
+    if (error){
+        console.log("error opening file",error);
+    }
+
+    console.log("contents",data);
+  });
 })
-
-app.get('/getVerses', function(req, res) {
+app.get('/scraper/verses', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Content-Type", "application/json", "charset=utf-8");
-  const stream = x("http://visna.net/index.php?let=" + req.query, "span.stafrof", [{
-    ljod: x("a@href", [ "#content"]),
-
-
-  }]).stream();
-  stream.pipe(res);
+  x('http://visna.net/?let=c',  ".container", {
+    items: x('http://visna.net/', '.container #left .menuSubPadd:not(:nth-child(2))', [{
+      id: '.menuSubPadd a@href',
+      title: ".menuSubPadd a",
+      text: x('.menuSubPadd a@href', '.container #content .poemtext'),
+      author: x(".menuSubPadd a@href", ".container #content .poemauthor"),
+    }]).write('results.json')
+  })
+  res.send("test")
 })
 
 
@@ -79,4 +114,4 @@ app.listen(port, function() {
 //     }])
 //   }).stream();
 //   stream.pipe(res);
-// });
+// })
