@@ -22,7 +22,7 @@ getVerses = ()=> {
   console.log("Fetching");
   x('http://visna.net/',  ".container", {
     results: x('center .stafrof a@href', ".container #left .menuSubPadd:not(:nth-child(2))", [{
-      id: '.menuSubPadd a@href',
+      id: '.menuSubPadd a@href | slice:36',
       title: ".menuSubPadd a",
       text: x('.menuSubPadd a@href', '.container #content .poemtext'),
       author: x(".menuSubPadd a@href", ".container #content .poemauthor"),
