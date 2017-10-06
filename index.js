@@ -20,6 +20,7 @@ filters: {
 let verses;
 getVerses = ()=> {
   console.log("Fetching");
+  /*
   x('http://visna.net/',  ".container center", {
     results: x(['.stafrof a@href'], { 
       items: x('.container #left', '.menuSubPadd:not(:nth-child(2))', [{
@@ -34,9 +35,7 @@ getVerses = ()=> {
     console.log(verses)
     console.log("verses er tilbúið");
   })
-
-
-  /*
+  */
   x('http://visna.net/',  ".container", {
     results: x('center .stafrof a@href', ".container #left .menuSubPadd:not(:nth-child(2))", [{
       id: '.menuSubPadd a@href | slice:36',
@@ -49,7 +48,6 @@ getVerses = ()=> {
     console.log(verses)
     console.log("verses er tilbúið");
   });
-  */
 }
 getVerses();
 app.get('/verses', (req, res)=> {
