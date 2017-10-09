@@ -55,6 +55,19 @@ app.get('/verses', (req, res)=> {
   res.header("Content-Type", "application/json; charset=utf-8");
   res.json(verses);
  });
+
+ app.get('/verse/:id', function(req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Content-Type", "application/json; charset=utf-8");
+  const stream = x('http://visna.net/index.php?let=&pid=' + req.params.id,  ".container #content", {
+      id: req.params.id,
+      title: ".poemtitle",
+      added: ".poeminfo:last-child",
+      text: '.poemtext',
+      author: ".poemauthor"
+  }).stream();
+  stream.pipe(res);
+})
  
 app.get('/api/verses.json', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
